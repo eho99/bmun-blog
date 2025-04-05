@@ -1,80 +1,76 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { supabase } from "@/lib/supabase-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
-  const { data: session } = useSession();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  // Redirect if user is already logged in
-  useEffect(() => {
-    if (session) {
-      router.push("/");
-    }
-  }, [session, router]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    await signIn("credentials", {
+    setLoading(true);
+    setError(null);
+
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
-      callbackUrl: "/",
     });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    } else {
+      router.push("/dashboard");
+      router.refresh();
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleLogin}
         className="w-full max-w-sm space-y-6 p-8 bg-white border rounded shadow"
       >
         <h2 className="text-2xl font-bold text-center">Login</h2>
 
+        {error && (
+          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+
         <div className="space-y-1">
-          <Label htmlFor="email" className="block text-sm font-medium">
-            Email
-          </Label>
+          <Label htmlFor="email">Email</Label>
           <Input
             id="email"
-            name="email"
             type="email"
-            placeholder="your-email@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
 
         <div className="space-y-1">
-          <Label htmlFor="password" className="block text-sm font-medium">
-            Password
-          </Label>
+          <Label htmlFor="password">Password</Label>
           <Input
             id="password"
-            name="password"
             type="password"
-            placeholder="Your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
 
-        <Button type="submit" className="w-full">
-          Sign In
-        </Button>
-
-        <Button
-          variant="secondary"
-          type="button"
-          className="w-full"
-          onClick={() => signIn("google", { callbackUrl: "/" })}
-        >
-          Sign In with Google
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
         </Button>
       </form>
     </div>

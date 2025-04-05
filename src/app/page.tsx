@@ -7,12 +7,9 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { VintageDial } from "@/components/custom/VintageDial";
-import { IconCopier } from "@/components/custom/IconCopier";
 
 export default function HomePage() {
   const { data: session } = useSession();
@@ -21,7 +18,9 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="text-2xl font-bold">My Blog</div>
+          <div className="text-2xl font-bold">
+            Berkeley Model United Nations Blog
+          </div>
           <div className="flex items-center space-x-3">
             {session ? (
               <div className="flex items-center space-x-2">
@@ -76,97 +75,18 @@ export default function HomePage() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600">
-                These interactive gauges are designed with vintage 1920-30s
-                aesthetics to enhance the immersive experience of historical
-                crisis committees. Adjust the threat levels and customize the
-                icons to represent different aspects of your committee
-                simulation.
+                Welcome to BMUN's Blog, a closer peek into the operations that
+                make BMUN and its committees deliver each and every year! We
+                hope you enjoy reading through the numerous blog posts written
+                by our lovely secretariat over the years, talking about their
+                committees, perspectives on MUN, education, and more!
               </p>
             </CardContent>
           </Card>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Dial Card */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Corruption Index</CardTitle>
-                <CardDescription>
-                  Track institutional corruption and government malfeasance
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <VintageDial
-                  initialValue={3}
-                  initialTitle="Corruption Level"
-                  className="max-w-md mx-auto"
-                />
-              </CardContent>
-              <CardFooter className="flex justify-center text-sm text-gray-500">
-                Monitor how bribes, scandals, and systemic corruption affect
-                your committee
-              </CardFooter>
-            </Card>
-            {/* Example of another dial with different settings */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Economic Instability</CardTitle>
-                <CardDescription>
-                  Track economic conditions during your simulation
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <VintageDial
-                  initialValue={2}
-                  initialTitle="Economic Risk"
-                  className="max-w-md mx-auto"
-                />
-              </CardContent>
-              <CardFooter className="flex justify-center text-sm text-gray-500">
-                Adjust economic risk levels to reflect committee decisions
-              </CardFooter>
-            </Card>
-            {/* Four more placeholder cards to fill out the grid */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Political Tension</CardTitle>
-                <CardDescription>
-                  Monitor political stability in your committee
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <VintageDial
-                  initialValue={3}
-                  initialTitle="Political Risk"
-                  className="max-w-md mx-auto"
-                />
-              </CardContent>
-              <CardFooter className="flex justify-center text-sm text-gray-500">
-                Track changing political conditions
-              </CardFooter>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Treasury</CardTitle>
-                <CardDescription>
-                  Track available monetary resources
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <IconCopier
-                  initialCount={5}
-                  maxCount={20}
-                  title="Money"
-                  iconSrc="/icons/gold_ingot_icon.png"
-                  iconAlt="Gold bar icon"
-                  iconSize={40}
-                />
-              </CardContent>
-              <CardFooter className="flex justify-center text-sm text-gray-500">
-                Adjust treasury reserves and available funds
-              </CardFooter>
-            </Card>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* 6 recent blog posts go here */}
         </div>
       </main>
     </div>
